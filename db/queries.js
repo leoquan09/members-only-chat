@@ -1,4 +1,5 @@
 const pool = require('../config/pool.js');
+const hash = require('../helpers/hash.js');
 
 async function findUserByUsername(user) {
     const query = `
@@ -6,26 +7,32 @@ async function findUserByUsername(user) {
     WHERE username = $1
     `;
     const { rows } = await pool.query(query, [user]);
-    return rows;
+    return rows[0];
 };
 
 async function findUserById(id) {
     const query = `
     SELECT * FROM users
-    WHERE username = $1
+    WHERE id = $1
     `;
 
     const { rows } = await pool.query(query, [id]);
+    return rows[0];
 };
 
-async function getUsers() {
+async function addUser(username, email, password) {
     const query = `
-    SELECT * FROM users
+    INSERT INTO users (username, email, password)
+    VALUES ($1, $2, $3);
+    RETURNING *
     `;
-
-    const { rows } = await pool.query(query);
-    console.log(rows);
-    return rows;
+    
+    const hashedPassword = await hash.hashPassword(password);
+    await pool.query(query, [username, email, hashedPassword]);
 };
 
-getUsers();
+module.exports = {
+    findUserById,
+    findUserByUsername,
+    addUser
+};
