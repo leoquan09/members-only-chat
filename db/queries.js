@@ -4,7 +4,7 @@ const hash = require('../helpers/hash.js');
 async function findUserByUsername(user) {
     const query = `
     SELECT * FROM users
-    WHERE username = $1
+    WHERE username = $1;
     `;
     const { rows } = await pool.query(query, [user]);
     return rows[0];
@@ -13,7 +13,7 @@ async function findUserByUsername(user) {
 async function findUserById(id) {
     const query = `
     SELECT * FROM users
-    WHERE id = $1
+    WHERE id = $1;
     `;
 
     const { rows } = await pool.query(query, [id]);
@@ -23,8 +23,8 @@ async function findUserById(id) {
 async function addUser(username, email, password) {
     const query = `
     INSERT INTO users (username, email, password)
-    VALUES ($1, $2, $3);
-    RETURNING *
+    VALUES ($1, $2, $3)
+    RETURNING *;
     `;
     
     const hashedPassword = await hash.hashPassword(password);
