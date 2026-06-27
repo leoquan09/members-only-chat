@@ -4,6 +4,7 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const homeRouter = require('./routers/homeRouter');
+const signUpRouter = require('./routers/sign-up');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -22,5 +23,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(homeRouter);
+app.use(signUpRouter);
 
 app.listen(process.env.PORT, () => console.log('hello world!'));
