@@ -8,17 +8,33 @@ async function signUpPost(req, res) {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const passwordCheck = req.body.passwordCheck;
 
-    const existingUser = await db.findUserByUsername(username);
+    if (password.length < 4) {
+        console.log('password is too short');
+        res.status(400).send(`Your password is wayyy too short! How are you supposed to have a secure account if someone can easily guess your password???`);
+    };
 
-    if (!existingUser) {
+    if (password !== passwordCheck) {
+        console.log(`passwords don't match`);
+        res.status(400).send(`Your passwords do not match. Try typing you're passwords correctly`);
+    };
+
+    try {
+        const existingUser = await db.findUserByUsername(username);
+
+        if (existingUser) {
+            console.log('username exists');
+            res.status(400).send('Username already exists! Pick a new one!')
+        }
+
         await db.addUser(username, email, password);
-    } else {
-        console.log("User already exists!");
-    }
-
-    console.log(username, email, password);
-    res.redirect('/');
+        console.log(username, email, password);
+        res.redirect('/');
+    } catch (err) {
+        console.log('error adding the user', err);
+        res.status(500).send('internal server error');
+    };
 };
 
 module.exports = {
