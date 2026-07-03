@@ -3,8 +3,10 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
+const configurePassport = require('./config/passport'); 
 const homeRouter = require('./routers/homeRouter');
 const signUpRouter = require('./routers/sign-up');
+const logInRouter = require('./routers/log-in');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -19,10 +21,18 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+configurePassport(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(homeRouter);
 app.use(signUpRouter);
+app.use(logInRouter);
 
-app.listen(process.env.PORT, () => console.log('hello world!'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log('Server is up and running on port 3000');
+}).on('error', (err) => {
+    console.error('Server failed to start:', err.message);
+});
