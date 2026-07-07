@@ -7,6 +7,8 @@ const configurePassport = require('./config/passport');
 const homeRouter = require('./routers/homeRouter');
 const signUpRouter = require('./routers/sign-up');
 const logInRouter = require('./routers/log-in');
+const dashboardRouter = require('./routers/dashboardRouter');
+const logOutRouter = require('./routers/logOutRouter');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -29,6 +31,8 @@ app.use(passport.session());
 app.use(homeRouter);
 app.use(signUpRouter);
 app.use(logInRouter);
+app.use(dashboardRouter);
+app.use(logOutRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

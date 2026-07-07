@@ -6,11 +6,11 @@ function renderLogIn(req, res) {
 
 function postLogIn(req, res, next) {
     passport.authenticate('local', {
-    successRedirect: '/dashboard', 
-    failureRedirect: '/logIn',    
-    failureMessage: true           
+    successRedirect: '/dashboard',
+    failureRedirect: '/logIn',
+    failureMessage: true 
   })(req, res, next);
-}
+};
 
 module.exports = {
     renderLogIn,
