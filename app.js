@@ -9,6 +9,7 @@ const signUpRouter = require('./routers/sign-up');
 const logInRouter = require('./routers/log-in');
 const dashboardRouter = require('./routers/dashboardRouter');
 const logOutRouter = require('./routers/logOutRouter');
+const newMessageRouter = require('./routers/newMessage');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -33,6 +34,7 @@ app.use(signUpRouter);
 app.use(logInRouter);
 app.use(dashboardRouter);
 app.use(logOutRouter);
+app.use(newMessageRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

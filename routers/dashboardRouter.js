@@ -3,6 +3,6 @@ const dashboardRouter = Router();
 const checkAuth = require('../utility/checkAuth');
 const dashboardController = require('../controllers/dashboardController.js');
 
-dashboardRouter.get('/dashboard', checkAuth, dashboardController.renderDashBoard);
+dashboardRouter.get('/dashboard', dashboardController.renderDashBoard);
 
 module.exports = dashboardRouter;

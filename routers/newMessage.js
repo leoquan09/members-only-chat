@@ -8,9 +8,15 @@ function checkAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-// Protect specific pages
 newMessageRouter.get('/newMessage', checkAuthenticated, (req, res) => {
   res.render('newMessage');
 });
 
-module.exports = homeRouter;
+newMessageRouter.post('/newMessage', checkAuthenticated, (req, res) => {
+  const name = req.user.username;
+  const message = req.body.message;
+  console.log(name, message);
+  res.redirect('/dashboard');
+});
+
+module.exports = newMessageRouter;
